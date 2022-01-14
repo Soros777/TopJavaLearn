@@ -9,6 +9,7 @@ import java.time.LocalTime;
 import java.time.Month;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class MealUtil {
@@ -24,14 +25,22 @@ public class MealUtil {
     public static int CALORIES_PER_DAY = 2000;
 
     public static void main(String[] args) {
-        List<MealTo> filteredMeals = filterByStreams(MEALS, LocalTime.of(9, 20), LocalTime.of(14, 0), CALORIES_PER_DAY);
+        List<MealTo> filteredMeals = getFilteredTos(MEALS, LocalTime.of(9, 20), LocalTime.of(14, 0), CALORIES_PER_DAY);
         filteredMeals.forEach(System.out::println);
     }
 
-    private static List<MealTo> filterByStreams(List<Meal> meals, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
+    public static List<MealTo> getFilteredTos(List<Meal> meals, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
+        return filterByPredicate(meals, caloriesPerDay, meal -> DateTimeUtil.isBetweenHalfOpen(meal.getTime(), startTime, endTime));
+    }
+
+    public static List<MealTo> getTos(List<Meal> meals, int caloriesPerDay) {
+        return filterByPredicate(meals, caloriesPerDay, meal -> true);
+    }
+
+    public static List<MealTo> filterByPredicate(List<Meal> meals, int caloriesPerDay, Predicate<Meal> predicate) {
         final Map<LocalDate, Integer> daysCalories = meals.stream().collect(Collectors.groupingBy(Meal::getDate, Collectors.summingInt(Meal::getCalories)));
         return meals.stream()
-                .filter(meal -> DateTimeUtil.isBetweenHalfOpen(meal.getTime(), startTime, endTime))
+                .filter(predicate)
                 .map(meal -> mealTo(meal, daysCalories.get(meal.getDate()) > caloriesPerDay))
                 .collect(Collectors.toList());
     }
