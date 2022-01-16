@@ -17,12 +17,15 @@
 <section>
     <h3><a href="index.html">Home</a></h3>
     <hr>
+    <h2><a href="meals?action=create">Create meal</a></h2>
     <table border="1" cellpadding="8" cellspacing="0">
         <thead>
         <tr>
             <th>Datetime</th>
             <th>Description</th>
             <th>calories</th>
+            <th></th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
@@ -32,6 +35,8 @@
                 <td>${fn:formatDateTime(meal.dateTime)}</td>
                 <td>${meal.description}</td>
                 <td>${meal.calories}</td>
+                <td><a href="meals?action=update&id=${meal.id}">Update</a></td>
+                <td><a href="meals?action=delete&id=${meal.id}">Delete</a></td>
             </tr>
         </c:forEach>
         </tbody>
