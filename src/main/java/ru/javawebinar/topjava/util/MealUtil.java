@@ -23,10 +23,10 @@ public class MealUtil {
             new Meal(LocalDateTime.of(2021, Month.JANUARY, 31, 13, 0), "Обед", 1000),
             new Meal(LocalDateTime.of(2021, Month.JANUARY, 31, 19, 0), "Ужин", 410)
     );
-    public static int CALORIES_PER_DAY = 2000;
+    public static int DEFAULT_CALORIES_PER_DAY = 2000;
 
     public static void main(String[] args) {
-        List<MealTo> filteredMeals = getFilteredTos(MEALS, LocalTime.of(9, 20), LocalTime.of(14, 0), CALORIES_PER_DAY);
+        List<MealTo> filteredMeals = getFilteredTos(MEALS, LocalTime.of(9, 20), LocalTime.of(14, 0), DEFAULT_CALORIES_PER_DAY);
         filteredMeals.forEach(System.out::println);
     }
 
