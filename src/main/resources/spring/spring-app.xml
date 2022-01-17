@@ -4,4 +4,8 @@
 
     <bean class="ru.javawebinar.topjava.repository.inmemory.InMemoryUserRepository" id="inMemoryUserRepository"/>
 
+    <bean class="ru.javawebinar.topjava.service.UserService">
+        <constructor-arg name="repository" ref="inMemoryUserRepository"/>
+    </bean>
+
 </beans>
