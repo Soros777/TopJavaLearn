@@ -31,18 +31,18 @@ public class MealServlet extends HttpServlet {
             case "delete" -> {
                 int id = getId(request);
                 log.info("delete meal {}", id);
-                repository.delete(id);
+                repository.delete(id, SecurityUtil.authUserId());
                 response.sendRedirect("meals");
             }
             case "create", "update" -> {
                 Meal meal = "create".equals(action) ? new Meal(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), "", 100) :
-                        repository.get(getId(request));
+                        repository.get(getId(request), SecurityUtil.authUserId());
                 request.setAttribute("meal", meal);
                 request.getRequestDispatcher("mealForm.jsp").forward(request, response);
             }
             default -> {
                 log.info("get all");
-                request.setAttribute("meals", MealUtil.getTos(repository.getAll(), MealUtil.DEFAULT_CALORIES_PER_DAY));
+                request.setAttribute("meals", MealUtil.getTos(repository.getAll(SecurityUtil.authUserId()), MealUtil.DEFAULT_CALORIES_PER_DAY));
                 request.getRequestDispatcher("meals.jsp").forward(request, response);
             }
         }
@@ -57,7 +57,7 @@ public class MealServlet extends HttpServlet {
                 request.getParameter("description"),
                 Integer.parseInt(request.getParameter("calories")));
         log.info(idParam.isEmpty() ? "Create meal" : "Update meal {}", meal);
-        repository.save(meal);
+        repository.save(meal, SecurityUtil.authUserId());
         response.sendRedirect("meals");
     }
 
