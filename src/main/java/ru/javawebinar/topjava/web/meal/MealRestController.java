@@ -39,10 +39,10 @@ public class MealRestController {
         return service.create(meal, userId);
     }
 
-    public Meal update(Meal meal) {
+    public Meal update(Meal meal, int id) {
         int userId = SecurityUtil.authUserId();
         log.info("update {} for user {}", meal, userId);
-        assureIdConsistent(meal, userId);
+        assureIdConsistent(meal, id);
         return service.update(meal, userId);
     }
 
