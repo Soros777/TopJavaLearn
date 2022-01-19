@@ -1,7 +1,5 @@
 package ru.javawebinar.topjava.util;
 
-import org.springframework.lang.Nullable;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -16,11 +14,11 @@ public class DateTimeUtil {
         return dateTime.format(DATE_TIME_FORMATTER);
     }
 
-    public static LocalDateTime atStartOfDayOrMin(@Nullable LocalDate startDate) {
+    public static LocalDateTime atStartOfDayOrMin(LocalDate startDate) {
         return startDate != null ? startDate.atStartOfDay() : MIN_DATE;
     }
 
-    public static LocalDateTime atStartOfNextDayOrMax(@Nullable LocalDate endDate) {
+    public static LocalDateTime atStartOfNextDayOrMax(LocalDate endDate) {
         return endDate != null ? endDate.plus(1, ChronoUnit.DAYS).atStartOfDay() : Max_DATE;
     }
 }
