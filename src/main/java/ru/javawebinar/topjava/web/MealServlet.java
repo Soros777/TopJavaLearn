@@ -4,6 +4,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.util.StringUtils;
 import ru.javawebinar.topjava.model.Meal;
+import ru.javawebinar.topjava.util.DateTimeUtil;
 import ru.javawebinar.topjava.util.MealUtil;
 import ru.javawebinar.topjava.web.meal.MealRestController;
 
@@ -13,7 +14,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
@@ -42,6 +45,14 @@ public class MealServlet extends HttpServlet {
                         mealController.get(getId(request));
                 request.setAttribute("meal", meal);
                 request.getRequestDispatcher("mealForm.jsp").forward(request, response);
+            }
+            case "filter" -> {
+                LocalDate startDate = DateTimeUtil.parseDate(request.getParameter("startDate"));
+                LocalDate endDate = DateTimeUtil.parseDate(request.getParameter("endDate"));
+                LocalTime startTime = DateTimeUtil.parseTime(request.getParameter("startTime"));
+                LocalTime endTime = DateTimeUtil.parseTime(request.getParameter("endTime"));
+                request.setAttribute("meals", mealController.getBetween(startDate, endDate, startTime, endTime));
+                request.getRequestDispatcher("meals.jsp").forward(request, response);
             }
             default -> {
                 request.setAttribute("meals", mealController.getAll());
