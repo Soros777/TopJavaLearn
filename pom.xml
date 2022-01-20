@@ -17,6 +17,7 @@
         <slf4g.version>1.7.32</slf4g.version>
         <logback.version>1.2.6</logback.version>
         <junit.version>4.13.2</junit.version>
+        <postgresql.version>42.3.1</postgresql.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
@@ -50,6 +51,12 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- DB -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${postgresql.version}</version>
+        </dependency>
 
 
         <!-- logging -->
