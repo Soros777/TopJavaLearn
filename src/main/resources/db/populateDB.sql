@@ -2,7 +2,7 @@ DELETE
 FROM user_roles;
 DELETE
 FROM users;
-ALTER SEQUENCE general_seq RESTART WITH 100000;
+ALTER SEQUENCE global_seq RESTART WITH 100000;
 
 INSERT INTO users (name, email, password)
 VALUES ('user', 'user@gmail.com', 'userPass'),
