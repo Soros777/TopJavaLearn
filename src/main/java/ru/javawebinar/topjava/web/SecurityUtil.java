@@ -1,9 +1,11 @@
 package ru.javawebinar.topjava.web;
 
+import ru.javawebinar.topjava.model.AbstractBaseEntity;
+
 import static ru.javawebinar.topjava.util.MealUtil.DEFAULT_CALORIES_PER_DAY;
 
 public class SecurityUtil {
-    private static int id;
+    private static int id = AbstractBaseEntity.START_SEQUENCE;
 
     public static int authUserId() {return id;}
 
