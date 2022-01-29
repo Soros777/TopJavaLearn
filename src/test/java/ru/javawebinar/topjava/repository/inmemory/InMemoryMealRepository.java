@@ -4,9 +4,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.CollectionUtils;
+import ru.javawebinar.topjava.MealTestData;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
-import ru.javawebinar.topjava.util.MealUtil;
 import ru.javawebinar.topjava.util.Util;
 
 import javax.annotation.PostConstruct;
@@ -31,9 +31,14 @@ public class InMemoryMealRepository implements MealRepository {
     private final Map<Integer, InMemoryBaseRepository<Meal>> usersMealsMap = new ConcurrentHashMap<>();
 
     {
-        MealUtil.MEALS.forEach(meal -> save(meal, USER_ID));
+        /* it must work in such way too
+        MealTestData.meals.forEach(meal -> save(meal, USER_ID));
         save(new Meal(LocalDateTime.of(2015, Month.JULY, 15, 8, 0), "Завтрак админ", 500), ADMIN_ID);
         save(new Meal(LocalDateTime.of(2015, Month.JULY, 15, 14, 0), "Обед админ", 1000), ADMIN_ID);
+         */
+        InMemoryBaseRepository<Meal> userMeals = new InMemoryBaseRepository<>();
+        MealTestData.meals.forEach(meal -> userMeals.map.put(meal.getId(), meal));
+        usersMealsMap.put(USER_ID, userMeals);
     }
 
     @PostConstruct

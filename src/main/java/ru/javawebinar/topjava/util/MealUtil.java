@@ -14,21 +14,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class MealUtil {
-    public static List<Meal> MEALS = List.of(
-            new Meal(LocalDateTime.of(2021, Month.JANUARY, 30, 8, 0), "Завтрак", 500),
-            new Meal(LocalDateTime.of(2021, Month.JANUARY, 30, 13, 0), "Обед", 1000),
-            new Meal(LocalDateTime.of(2021, Month.JANUARY, 30, 19, 0), "Ужин", 500),
-            new Meal(LocalDateTime.of(2021, Month.JANUARY, 31, 0, 0), "Еда на граничное значение", 100),
-            new Meal(LocalDateTime.of(2021, Month.JANUARY, 31, 8, 0), "Завтрак", 500),
-            new Meal(LocalDateTime.of(2021, Month.JANUARY, 31, 13, 0), "Обед", 1000),
-            new Meal(LocalDateTime.of(2021, Month.JANUARY, 31, 19, 0), "Ужин", 410)
-    );
     public static int DEFAULT_CALORIES_PER_DAY = 2000;
-
-    public static void main(String[] args) {
-        List<MealTo> filteredMeals = getFilteredTos(MEALS, LocalTime.of(9, 20), LocalTime.of(14, 0), DEFAULT_CALORIES_PER_DAY);
-        filteredMeals.forEach(System.out::println);
-    }
 
     public static List<MealTo> getFilteredTos(List<Meal> meals, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
         return filterByPredicate(meals, caloriesPerDay, meal -> Util.isBetweenHalfOpen(meal.getTime(), startTime, endTime));
