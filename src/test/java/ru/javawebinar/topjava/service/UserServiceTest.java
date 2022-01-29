@@ -2,7 +2,6 @@ package ru.javawebinar.topjava.service;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slf4j.bridge.SLF4JBridgeHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.test.context.ContextConfiguration;
@@ -15,7 +14,7 @@ import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThrows;
 import static ru.javawebinar.topjava.UserTestData.*;
 
 @ContextConfiguration({
@@ -28,12 +27,6 @@ public class UserServiceTest {
 
     @Autowired
     private UserService service;
-
-    static {
-        // only for postgres driver
-        // it uses java util logging and logged via java-util-logging bridge
-        SLF4JBridgeHandler.install();
-    }
 
     @Test
     public void create() {
