@@ -38,7 +38,7 @@ public class MealServiceTest {
 
     @Test
     public void get() {
-        assertMatch(service.get(ADMIN_MEAL1_ID, ADMIN_ID), adminMeal1);
+        MEAL_MATCHER.assertMatch(service.get(ADMIN_MEAL1_ID, ADMIN_ID), adminMeal1);
     }
 
     @Test
@@ -57,8 +57,8 @@ public class MealServiceTest {
         int newId = created.getId();
         Meal newMeal = getNew();
         newMeal.setId(newId);
-        assertMatch(created, newMeal);
-        assertMatch(service.get(created.getId(), USER_ID), newMeal);
+        MEAL_MATCHER.assertMatch(created, newMeal);
+        MEAL_MATCHER.assertMatch(service.get(created.getId(), USER_ID), newMeal);
     }
 
     @Test
@@ -69,8 +69,8 @@ public class MealServiceTest {
     @Test
     public void update() {
         Meal updated = service.update(getUpdated(), USER_ID);
-        assertMatch(updated, getUpdated());
-        assertMatch(service.get(updated.getId(), USER_ID), getUpdated());
+        MEAL_MATCHER.assertMatch(updated, getUpdated());
+        MEAL_MATCHER.assertMatch(service.get(updated.getId(), USER_ID), getUpdated());
     }
 
     @Test
@@ -101,18 +101,18 @@ public class MealServiceTest {
 
     @Test
     public void getAll() {
-        assertMatch(service.getAll(USER_ID), meals);
+        MEAL_MATCHER.assertMatch(service.getAll(USER_ID), meals);
     }
 
     @Test
     public void getBetweenInclusive() {
-        assertMatch(
+        MEAL_MATCHER.assertMatch(
                 service.getBetweenInclusive(USER_ID, LocalDate.of(2021, 1, 29), LocalDate.of(2021, 1, 30)),
                 meal3, meal2, meal1);
     }
 
     @Test
     public void getBetweenNullDates() {
-        assertMatch(service.getBetweenInclusive(USER_ID, null, null), meals);
+        MEAL_MATCHER.assertMatch(service.getBetweenInclusive(USER_ID, null, null), meals);
     }
 }
