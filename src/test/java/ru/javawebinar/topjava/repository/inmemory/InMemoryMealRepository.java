@@ -13,10 +13,7 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import java.time.LocalDateTime;
 import java.time.Month;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -37,7 +34,7 @@ public class InMemoryMealRepository implements MealRepository {
         save(new Meal(LocalDateTime.of(2015, Month.JULY, 15, 14, 0), "Обед админ", 1000), ADMIN_ID);
          */
         InMemoryBaseRepository<Meal> userMeals = new InMemoryBaseRepository<>();
-        MealTestData.meals.forEach(meal -> userMeals.map.put(meal.getId(), meal));
+        MealTestData.meals.forEach(userMeals::put);
         usersMealsMap.put(USER_ID, userMeals);
     }
 
@@ -53,6 +50,7 @@ public class InMemoryMealRepository implements MealRepository {
 
     @Override
     public Meal save(Meal meal, int userId) {
+        Objects.requireNonNull(meal, "meal must not be null");
         InMemoryBaseRepository<Meal> userMeals = usersMealsMap.computeIfAbsent(userId, uId -> new InMemoryBaseRepository<>());
         return userMeals.save(meal);
     }

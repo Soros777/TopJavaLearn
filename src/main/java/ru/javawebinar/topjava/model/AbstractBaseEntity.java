@@ -1,5 +1,7 @@
 package ru.javawebinar.topjava.model;
 
+import org.springframework.util.Assert;
+
 public abstract class AbstractBaseEntity {
     public static int START_SEQUENCE = 100000;
 
@@ -12,6 +14,11 @@ public abstract class AbstractBaseEntity {
     }
 
     public Integer getId() {
+        return id;
+    }
+
+    public Integer id() {
+        Assert.notNull(id, "id must not be null");
         return id;
     }
 

@@ -14,6 +14,8 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class MealUtil {
+    private MealUtil() {}
+
     public static int DEFAULT_CALORIES_PER_DAY = 2000;
 
     public static List<MealTo> getFilteredTos(List<Meal> meals, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
