@@ -1,7 +1,13 @@
 package ru.javawebinar.topjava.model;
 
+import org.hibernate.validator.constraints.Range;
 import org.springframework.util.CollectionUtils;
 
+import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.Date;
 import java.util.EnumSet;
@@ -9,12 +15,37 @@ import java.util.Set;
 
 import static ru.javawebinar.topjava.util.MealUtil.DEFAULT_CALORIES_PER_DAY;
 
+@Entity
+@Table(name = "users")
 public class User extends AbstractNamedEntity {
+
+    @NotBlank
+    @Email
+    @Size(max = 100)
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
+
+    @NotBlank
+    @Size(min = 5, max = 100)
+    @Column(name = "password", nullable = false)
     private String password;
+
+    @Column(name = "enabled", nullable = false, columnDefinition = "boolean default true")
     private boolean enabled;
+
+    @NotNull
+    @Column(name = "registered", nullable = false, columnDefinition = "timestamp default now()")
     private Date registered = new Date();
+
+    @Column(name = "calories_per_day", nullable = false, columnDefinition = "integer default 2000")
+    @Range(min = 10, max = 10000)
     private int caloriesPerDay;
+
+    @Enumerated(EnumType.STRING)
+    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
+                        uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "role"}, name = "unique_user_role")})
+    @Column(name = "role")
+    @ElementCollection(fetch = FetchType.EAGER)
     private Set<Role> roles;
 
     public User() {}
