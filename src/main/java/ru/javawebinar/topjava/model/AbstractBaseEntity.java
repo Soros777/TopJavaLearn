@@ -1,8 +1,10 @@
 package ru.javawebinar.topjava.model;
 
+import org.hibernate.Hibernate;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @MappedSuperclass
 @Access(AccessType.FIELD)
@@ -24,6 +26,7 @@ public abstract class AbstractBaseEntity {
         return id;
     }
 
+    // doesn`t work for hibernate lazy proxy
     public Integer id() {
         Assert.notNull(id, "id must not be null");
         return id;
@@ -35,6 +38,21 @@ public abstract class AbstractBaseEntity {
 
     public boolean isNew() {
         return id == null;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || !getClass().equals(Hibernate.getClass(o))) {
+            return false;
+        }
+        AbstractBaseEntity that = (AbstractBaseEntity) o;
+        return id != null && id.equals(that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id == null ? 0 : id;
     }
 
     @Override
