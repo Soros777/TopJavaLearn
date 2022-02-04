@@ -3,7 +3,6 @@ package ru.javawebinar.topjava;
 import ru.javawebinar.topjava.model.Meal;
 
 import java.time.temporal.ChronoUnit;
-import java.util.Arrays;
 import java.util.List;
 
 import static java.time.LocalDateTime.of;
@@ -25,7 +24,7 @@ public class MealTestData {
     public static final Meal adminMeal1 = new Meal(ADMIN_MEAL1_ID, of(2015, 7, 15, 8, 0), "Завтрак админ", 500);
     public static final Meal adminMeal2 = new Meal(ADMIN_MEAL1_ID + 1, of(2015, 1, 31, 8, 0), "Завтрак админ", 500);
 
-    public static final List<Meal> meals = Arrays.asList(meal7, meal6, meal5, meal4, meal3, meal2, meal1);
+    public static final List<Meal> meals = List.of(meal7, meal6, meal5, meal4, meal3, meal2, meal1);
 
     public static Meal getNew() {
         return new Meal(null, of(2018, 7, 20, 8, 30), "Created meal", 300);

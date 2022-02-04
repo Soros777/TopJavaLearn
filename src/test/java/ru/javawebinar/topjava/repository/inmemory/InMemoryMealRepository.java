@@ -33,7 +33,7 @@ public class InMemoryMealRepository implements MealRepository {
         save(new Meal(LocalDateTime.of(2015, Month.JULY, 15, 8, 0), "Завтрак админ", 500), ADMIN_ID);
         save(new Meal(LocalDateTime.of(2015, Month.JULY, 15, 14, 0), "Обед админ", 1000), ADMIN_ID);
          */
-        InMemoryBaseRepository<Meal> userMeals = new InMemoryBaseRepository<>();
+        var userMeals = new InMemoryBaseRepository<Meal>();
         MealTestData.meals.forEach(userMeals::put);
         usersMealsMap.put(USER_ID, userMeals);
     }
@@ -51,19 +51,19 @@ public class InMemoryMealRepository implements MealRepository {
     @Override
     public Meal save(Meal meal, int userId) {
         Objects.requireNonNull(meal, "meal must not be null");
-        InMemoryBaseRepository<Meal> userMeals = usersMealsMap.computeIfAbsent(userId, uId -> new InMemoryBaseRepository<>());
+        var userMeals = usersMealsMap.computeIfAbsent(userId, uId -> new InMemoryBaseRepository<>());
         return userMeals.save(meal);
     }
 
     @Override
     public boolean delete(int id, int userId) {
-        InMemoryBaseRepository<Meal> userMeals = usersMealsMap.get(userId);
+        var userMeals = usersMealsMap.get(userId);
         return userMeals != null && userMeals.delete(id);
     }
 
     @Override
     public Meal get(int id, int userId) {
-        InMemoryBaseRepository<Meal> userMeals = usersMealsMap.get(userId);
+        var userMeals = usersMealsMap.get(userId);
         return userMeals == null ? null : userMeals.get(id);
     }
 
@@ -78,11 +78,11 @@ public class InMemoryMealRepository implements MealRepository {
     }
 
     private List<Meal> filterByPredicate(int userId, Predicate<Meal> filter) {
-        InMemoryBaseRepository<Meal> userMeals = usersMealsMap.get(userId);
+        var userMeals = usersMealsMap.get(userId);
         return userMeals == null ? Collections.emptyList() :
                 userMeals.getCollection().stream()
                         .filter(filter)
                         .sorted(Comparator.comparing(Meal::getDateTime).reversed())
-                        .collect(Collectors.toList());
+                        .toList();
     }
 }
