@@ -32,9 +32,12 @@ public class JpaUserRepository implements UserRepository {
     @Override
     @Transactional
     public boolean delete(int id) {
-//        Query query = em.createQuery("DELETE FROM User u WHERE u.id=:id", User.class);
-        Query query = em.createQuery(User.DELETE, User.class);
-        return query.setParameter("id", id).executeUpdate() != 0;
+//        Query query = em.createQuery("DELETE FROM User u WHERE u.id=:id");
+
+//        Query query = em.createNamedQuery(User.DELETE);
+//        return query.setParameter("id", id).executeUpdate() != 0;
+
+        return em.createNamedQuery(User.DELETE).setParameter("id", id).executeUpdate() != 0;
     }
 
     @Override
@@ -44,13 +47,13 @@ public class JpaUserRepository implements UserRepository {
 
     @Override
     public User getByEmail(String email) {
-        List<User> users = em.createQuery(User.GET_BY_EMAIL, User.class)
+        List<User> users = em.createNamedQuery(User.GET_BY_EMAIL, User.class)
                 .setParameter(1, email).getResultList();
         return DataAccessUtils.singleResult(users);
     }
 
     @Override
     public List<User> getAll() {
-        return em.createQuery(User.ALL_SORTED, User.class).getResultList();
+        return em.createNamedQuery(User.ALL_SORTED, User.class).getResultList();
     }
 }

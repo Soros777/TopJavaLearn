@@ -40,7 +40,7 @@ public class UserServiceTest {
 
     @Test
     public void createDuplicateEmail() {
-        assertThrows(DataAccessException.class, () -> service.create(new User(null, "duplicate", "admin@gmail.com", "pass", Role.USER)));
+        assertThrows(DataAccessException.class, () -> service.create(new User(null, "duplicate", "admin@gmail.com", "passw", Role.USER)));
     }
 
     @Test

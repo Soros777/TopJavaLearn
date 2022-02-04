@@ -68,6 +68,15 @@
             <version>${postgresql.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+            <version>2.3.4</version>
+            <scope>test</scope>
+        </dependency>
+
+
+        <!-- ORM -->
+        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-orm</artifactId>
             <version>${spring.version}</version>
